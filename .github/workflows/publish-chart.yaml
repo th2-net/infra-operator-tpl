@@ -64,6 +64,8 @@ jobs:
 
       - name: Create package and index
         run: |
+          pwd
+          ls -la
           cd ./th2-net.github.io/
           helm package ../infra-operator-tpl/
           helm repo index --merge ./index.yaml .
