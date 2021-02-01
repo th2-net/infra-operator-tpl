@@ -70,6 +70,6 @@ jobs:
       - name: Commit & Push changes
         uses: actions-js/push@master
         with:
-          author_name: ${{ GITHUB_ACTOR }}
-          author_email: ${{ GITHUB_ACTOR }}@users.noreply.github.com
+          author_name: ${{ github.actor }}
+          author_email: ${{ github.actor }}@users.noreply.github.com
           github_token: ${{ secrets.GITHUB_TOKEN }}
