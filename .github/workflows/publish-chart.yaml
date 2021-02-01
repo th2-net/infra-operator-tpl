@@ -55,6 +55,7 @@ jobs:
           repository: th2-net/th2-net.github.io
           ref: master
           token: ${{ secrets.PAT_CI_ACTION }}
+          path: th2-net.github.io
 
       - name: Install Helm
         uses: azure/setup-helm@v1
