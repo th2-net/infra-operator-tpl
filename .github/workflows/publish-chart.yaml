@@ -48,6 +48,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
+          path: infra-operator-tpl
 
       - name: Checkout Helm repository
         uses: actions/checkout@v2
@@ -64,10 +65,8 @@ jobs:
 
       - name: Create package and index
         run: |
-          pwd
-          ls -la
+          helm package ./infra-operator-tpl/ --destination ./th2-net.github.io/
           cd ./th2-net.github.io/
-          helm package ../infra-operator-tpl/
           helm repo index --merge ./index.yaml .
 
       - name: Commit & Push changes
