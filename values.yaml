@@ -1,3 +1,4 @@
+---
 component:
   image: 
   name: comp1
@@ -21,3 +22,8 @@ component:
     # - name: FIX
     #   type: LEVEL1
     #   data: XYZ
+  extendedSettings:
+    service:
+      enabled: false
+  secrets:
+    rabbitMQ: test
