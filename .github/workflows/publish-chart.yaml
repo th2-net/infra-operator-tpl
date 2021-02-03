@@ -35,8 +35,7 @@ jobs:
         run: |
           ct lint --config=.github/workflows/cfg/ct.yml \
             --lint-conf=.github/workflows/cfg/lint-cfg.yml \
-            --validate-maintainers=false --debug --all \
-            --chart-dirs ./
+            --validate-maintainers=false --debug --all
 
   release:
     needs: lint-test
