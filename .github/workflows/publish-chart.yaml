@@ -1,8 +1,10 @@
 name: Lint and Test Charts
 on:
-  create:
-    tags:
-      - v*
+  push:
+    branches: *
+#   create:
+#     tags:
+#       - v*
 
 jobs:
   lint-test:
