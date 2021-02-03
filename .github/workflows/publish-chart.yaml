@@ -32,7 +32,7 @@ jobs:
           version: v3.3.0
 
       - name: Run chart-testing (lint)
-        run: ct lint --config=.github/workflows/cfg/ct.yml --lint-conf=.github/workflows/cfg/lint-cfg.yml --validate-maintainers=false --debug
+        run: ct lint --config=.github/workflows/cfg/ct.yml --lint-conf=.github/workflows/cfg/lint-cfg.yml --validate-maintainers=false --debug --all
 
   release:
     needs: lint-test
