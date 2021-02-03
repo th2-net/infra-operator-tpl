@@ -2,7 +2,7 @@
 
 {{- include "deployment" .Values }}
 
-{{- else 
+{{- else }}
 
   {{- if not .Values.component.extendedSettings.externalBox.enabled }}
 
