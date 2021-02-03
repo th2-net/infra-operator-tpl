@@ -55,7 +55,7 @@ jobs:
         with:
           repository: th2-net/th2-net.github.io
           ref: master
-          token: ${{ secrets.GH_PAT }}
+          token: ${{ secrets.PAT_CI_ACTION }}
           path: th2-net.github.io
 
       - name: Install Helm
@@ -76,4 +76,4 @@ jobs:
           repository: th2-net/th2-net.github.io
 #           author_name: ${{ github.actor }}
 #           author_email: ${{ github.actor }}@users.noreply.github.com
-          github_token: ${{ secrets.GH_PAT }}
+          github_token: ${{ secrets.PAT_CI_ACTION }}
