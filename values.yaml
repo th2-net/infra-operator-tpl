@@ -1,12 +1,17 @@
----
 component:
-  image: 
+  secrets:
+    rabbitMQ: rabbitMQ
+    cassandra: cassandra
+  image:
   name: comp1
-#nodePort is optional
-  nodePort: 
+  extendedSettings:
+    service:
+      enabled: false
+  prometheus:
+    enabled: false
   custom:
     # prod:
-    #   value: abc
+    #   value: dskgfsdgf
     # test:
     #   value: example
   routerMq:
@@ -22,8 +27,3 @@ component:
     # - name: FIX
     #   type: LEVEL1
     #   data: XYZ
-  extendedSettings:
-    service:
-      enabled: false
-  secrets:
-    rabbitMQ: test
