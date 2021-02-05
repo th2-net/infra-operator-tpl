@@ -43,5 +43,5 @@ Generating resources section for k8
             cpu: {{ .component.extendedSettings.resources.requests.cpu }}
             {{- end }}
           {{- end }}
-        {{- end }}
+          {{- end }}
 {{- end }}
