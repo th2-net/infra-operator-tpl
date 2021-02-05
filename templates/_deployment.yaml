@@ -9,7 +9,6 @@ metadata:
     app: {{ .component.name }}
   name: {{ .component.name }}
   annotations:
-    fluxcd.io/automated: 'true'
     {{- if .annotations }}
     th2.exactpro.com/antecedent: {{ .annotations }}
     {{- end }}
