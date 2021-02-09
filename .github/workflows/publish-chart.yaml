@@ -1,4 +1,8 @@
-name: Lint and Test Charts
+name: Publish chart
+on:
+  push:
+    tags:
+      - "v*"
 
 jobs:
   release:
