@@ -64,11 +64,13 @@ spec:
           mountPath: /home/etc/log4j.properties
           subPath: log4j.properties
 {{- /* end old location */}}
+{{- /* disabled temporary
         {{- if not .component.extendedSettings.logFile }}
         - name: log-file
           mountPath: /var/th2/config/log4j.properties
           subPath: log4j.properties
-        {{- end }}
+        {{- end }} 
+*/}}
         - name: configs
           mountPath: /var/th2/config/
         {{- range $volume := .component.extendedSettings.mounting }}
@@ -86,9 +88,11 @@ spec:
         configMap:
           name: java-logging-config
 {{- /* end old configmap name */}}
+{{- /* disabled temporary
       - name: log-file
         configMap:
           name: java-logging-config
+*/}}
       - name: configs
         projected:
           sources:
