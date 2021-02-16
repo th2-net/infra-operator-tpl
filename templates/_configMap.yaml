@@ -23,4 +23,8 @@ data:
   prometheus.json: |
     {{ .component.prometheus | toJson }}
   {{- end }}
+  {{- if .component.extendedSettings.logFile }}
+  log4j.properties: |
+    {{ .component.extendedSettings.logFile | toJson }}
+  {{- end }}
 {{ end }}

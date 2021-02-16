@@ -20,7 +20,7 @@ spec:
   template:
     metadata:
       annotations:
-#        rollme: {{ randAlphaNum 5 | quote }}
+{{- /*         rollme: {{ randAlphaNum 5 | quote }}  - disabled */}}
         checksum/config: {{ include "configMap" . | sha256sum }}
         {{- if .annotations }}
         th2.exactpro.com/antecedent : {{ .annotations }}
@@ -40,9 +40,7 @@ spec:
         name: {{ .component.name }}
         {{- include "prometheus-deploy" . }}
         {{- include "resources" . }}
-{{/*
-#        {{- include "probes-deploy" . }}
-*/}}
+{{- /*         {{- include "probes-deploy" . }} */}}
         env:
         {{- if .component.extendedSettings.envVariables }}
         {{- range $envName, $envValue := .component.extendedSettings.envVariables }}
@@ -61,9 +59,15 @@ spec:
               name: {{ .component.secrets.cassandra }}
               key: cassandra-password
         volumeMounts:
+{{- /* Old location for log4j.properties file. Will be removed further versions */}}
         - name: logging-volume
           mountPath: /home/etc/log4j.properties
           subPath: log4j.properties
+{{- /* end old location */}}
+        {{- if not .component.extendedSettings.logFile }}
+        - name: logFile
+          mountPath: /var/th2/config/
+        {{- end }}
         - name: configs
           mountPath: /var/th2/config/
         {{- range $volume := .component.extendedSettings.mounting }}
@@ -76,7 +80,12 @@ spec:
         persistentVolumeClaim:
           claimName: {{ $volume.pvcName }}
       {{- end }}
+{{- /* Old configmap name for log4j.properties file. Will be removed further versions */}}
       - name: logging-volume
+        configMap:
+          name: java-logging-config
+{{- /* end old configmap name */}}
+      - name: logFile
         configMap:
           name: java-logging-config
       - name: configs
