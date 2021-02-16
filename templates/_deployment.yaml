@@ -65,8 +65,9 @@ spec:
           subPath: log4j.properties
 {{- /* end old location */}}
         {{- if not .component.extendedSettings.logFile }}
-        - name: logFile
-          mountPath: /var/th2/config/
+        - name: log-file
+          mountPath: /var/th2/config/log4j.properties
+          subPath: log4j.properties
         {{- end }}
         - name: configs
           mountPath: /var/th2/config/
@@ -85,7 +86,7 @@ spec:
         configMap:
           name: java-logging-config
 {{- /* end old configmap name */}}
-      - name: logFile
+      - name: log-file
         configMap:
           name: java-logging-config
       - name: configs
