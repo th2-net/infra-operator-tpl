@@ -7,9 +7,9 @@ metadata:
   annotations:
     th2.exactpro.com/antecedent: {{ $.Values.annotations }}
   {{- end }}
-  name: {{ $.Values.component.name }}-{{ $dictionary.name | lower }}-dictionary
+  name: {{ $dictionary.name | lower }}-dictionary
   labels:
-    app: {{ $.Values.component.name }}
+    app: {{ $dictionary.name }}
     type: dictionary
 data: 
   {{ $dictionary.name }}-{{ $dictionary.type }}.encoded: |
