@@ -63,18 +63,10 @@ spec:
               name: {{ .component.secrets.cassandra }}
               key: cassandra-password
         volumeMounts:
-{{- /* Old location for log4j.properties file. Will be removed further versions */}}
-        - name: logging-volume
-          mountPath: /home/etc/log4j.properties
-          subPath: log4j.properties
-{{- /* end old location */}}
-{{- /* disabled temporary
         {{- if not .component.extendedSettings.logFile }}
         - name: log-file
-          mountPath: /var/th2/config/log4j.properties
-          subPath: log4j.properties
+          mountPath: /var/th2/config/
         {{- end }} 
-*/}}
         - name: configs
           mountPath: /var/th2/config/
         {{- range $volume := .component.extendedSettings.mounting }}
@@ -87,16 +79,11 @@ spec:
         persistentVolumeClaim:
           claimName: {{ $volume.pvcName }}
       {{- end }}
-{{- /* Old configmap name for log4j.properties file. Will be removed further versions */}}
-      - name: logging-volume
-        configMap:
-          name: java-logging-config
-{{- /* end old configmap name */}}
-{{- /* disabled temporary
+      {{- if not .component.extendedSettings.logFile }}
       - name: log-file
         configMap:
           name: java-logging-config
-*/}}
+      {{- end }}
       - name: configs
         projected:
           sources:
