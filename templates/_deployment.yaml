@@ -20,7 +20,6 @@ spec:
   template:
     metadata:
       annotations:
-{{- /*         rollme: {{ randAlphaNum 5 | quote }}  - disabled */}}
         checksum/config: {{ include "configMap" . | sha256sum }}
         {{- if .annotations }}
         th2.exactpro.com/antecedent : {{ .annotations }}
@@ -40,7 +39,6 @@ spec:
         name: {{ .component.name }}
         {{- include "prometheus-deploy" . }}
         {{- include "resources" . }}
-{{- /*         {{- include "probes-deploy" . }} */}}
         env:
         {{- if .component.extendedSettings.envVariables }}
         {{- range $envName, $envValue := .component.extendedSettings.envVariables }}
@@ -64,13 +62,6 @@ spec:
           mountPath: /home/etc/log4j.properties
           subPath: log4j.properties
 {{- /* end old location */}}
-{{- /* disabled temporary
-        {{- if not .component.extendedSettings.logFile }}
-        - name: log-file
-          mountPath: /var/th2/config/log4j.properties
-          subPath: log4j.properties
-        {{- end }} 
-*/}}
         - name: configs
           mountPath: /var/th2/config/
         {{- range $volume := .component.extendedSettings.mounting }}
@@ -88,11 +79,6 @@ spec:
         configMap:
           name: java-logging-config
 {{- /* end old configmap name */}}
-{{- /* disabled temporary
-      - name: log-file
-        configMap:
-          name: java-logging-config
-*/}}
       - name: configs
         projected:
           sources:
