@@ -24,7 +24,6 @@ spec:
   template:
     metadata:
       annotations:
-{{- /*         rollme: {{ randAlphaNum 5 | quote }}  - disabled */}}
         checksum/config: {{ include "configMap" . | sha256sum }}
         {{- if .annotations }}
         th2.exactpro.com/antecedent : {{ .annotations }}
@@ -44,7 +43,6 @@ spec:
         name: {{ .component.name }}
         {{- include "prometheus-deploy" . }}
         {{- include "resources" . }}
-{{- /*         {{- include "probes-deploy" . }} */}}
         env:
         {{- if .component.extendedSettings.envVariables }}
         {{- range $envName, $envValue := .component.extendedSettings.envVariables }}
@@ -67,6 +65,12 @@ spec:
         - name: log-file
           mountPath: /var/th2/config/
         {{- end }} 
+        {{- if .component.extendedSettings.sharedMemory }}
+        {{- if .component.extendedSettings.sharedMemory.enabled }}
+        - name: shm
+          mountPath: /dev/shm
+        {{- end }}
+        {{- end }}
         - name: configs
           mountPath: /var/th2/config/
         {{- range $volume := .component.extendedSettings.mounting }}
@@ -74,6 +78,13 @@ spec:
           mountPath: {{ $volume.path | quote }}
         {{- end }}
       volumes:
+      {{- if .component.extendedSettings.sharedMemory }}
+      {{- if .component.extendedSettings.sharedMemory.enabled }}
+      - name: shm
+        emptyDir:
+          medium: Memory
+      {{- end }}
+      {{- end }}
       {{- range $volume := .component.extendedSettings.mounting }}
       - name: {{ $volume.pvcName | lower }}
         persistentVolumeClaim:
