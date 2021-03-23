@@ -61,10 +61,6 @@ spec:
               name: {{ .component.secrets.cassandra }}
               key: cassandra-password
         volumeMounts:
-        {{- if not .component.extendedSettings.logFile }}
-        - name: log-file
-          mountPath: /var/th2/config/
-        {{- end }} 
         {{- if .component.extendedSettings.sharedMemory }}
         {{- if .component.extendedSettings.sharedMemory.enabled }}
         - name: shm
@@ -90,14 +86,13 @@ spec:
         persistentVolumeClaim:
           claimName: {{ $volume.pvcName }}
       {{- end }}
-      {{- if not .component.extendedSettings.logFile }}
-      - name: log-file
-        configMap:
-          name: java-logging-config
-      {{- end }}
       - name: configs
         projected:
           sources:
+          {{- if not .component.extendedSettings.logFile }}
+          - configMap:
+              name: java-logging-config
+          {{- end }}
           {{- if .component.extendedSettings.hostNetwork }}
           - configMap:
               name: rabbit-mq-external-app-config
