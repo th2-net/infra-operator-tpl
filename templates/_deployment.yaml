@@ -13,7 +13,11 @@ metadata:
     th2.exactpro.com/antecedent: {{ .annotations }}
     {{- end }}
 spec:
+  {{- if .component.extendedSettings.replicas }}      
+  replicas: {{ .component.extendedSettings.replicas }}
+  {{- else }}
   replicas: 1
+  {{- end }}
   selector:
     matchLabels:
       app: {{ .component.name }}
@@ -57,17 +61,16 @@ spec:
               name: {{ .component.secrets.cassandra }}
               key: cassandra-password
         volumeMounts:
+        {{- if not .component.extendedSettings.logFile }}
+        - name: log-file
+          mountPath: /var/th2/config/
+        {{- end }} 
         {{- if .component.extendedSettings.sharedMemory }}
         {{- if .component.extendedSettings.sharedMemory.enabled }}
         - name: shm
           mountPath: /dev/shm
         {{- end }}
         {{- end }}
-{{- /* Old location for log4j.properties file. Will be removed further versions */}}
-        - name: logging-volume
-          mountPath: /home/etc/log4j.properties
-          subPath: log4j.properties
-{{- /* end old location */}}
         - name: configs
           mountPath: /var/th2/config/
         {{- range $volume := .component.extendedSettings.mounting }}
@@ -87,11 +90,11 @@ spec:
         persistentVolumeClaim:
           claimName: {{ $volume.pvcName }}
       {{- end }}
-{{- /* Old configmap name for log4j.properties file. Will be removed further versions */}}
-      - name: logging-volume
+      {{- if not .component.extendedSettings.logFile }}
+      - name: log-file
         configMap:
           name: java-logging-config
-{{- /* end old configmap name */}}
+      {{- end }}
       - name: configs
         projected:
           sources:
