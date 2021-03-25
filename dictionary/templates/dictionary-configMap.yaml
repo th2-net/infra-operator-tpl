@@ -1,17 +1,15 @@
-{{ range $dictionary := .Values.component.dictionaries }}
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  {{- if $.Values.annotations }}
+  {{- if .Values.annotations }}
   annotations:
-    th2.exactpro.com/antecedent: {{ $.Values.annotations }}
+    th2.exactpro.com/antecedent: {{ .Values.annotations }}
   {{- end }}
-  name: {{ $dictionary.name | lower }}-dictionary
+  name: {{ .Values.component.name | lower }}-dictionary
   labels:
-    app: {{ $dictionary.name }}
+    app: {{ .Values.component.name }}
     type: dictionary
 data: 
-  {{ $dictionary.name }}-{{ $dictionary.type }}.encoded: |
-    {{ $dictionary.data }}
-{{ end }}
+  {{ .Values.component.name }}-{{ .Values.component.type }}.encoded: |
+    {{ .Values.component.data }}
