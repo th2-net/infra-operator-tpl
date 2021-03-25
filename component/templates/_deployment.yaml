@@ -107,8 +107,9 @@ spec:
           - configMap:
               name: {{ .component.name }}-app-config
           {{- range $dictionary := .component.dictionaries }}
+
           - configMap:
-              name: {{ $dictionary.name-$dictionary.type | lower }}-dictionary
+              name: {{ $dictionary.name | lower }}-{{ $dictionary.type | lower }}-dictionary
           {{- end }}
       imagePullSecrets:
       - name: th2-solution
