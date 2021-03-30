@@ -27,4 +27,6 @@ data:
   log4j.properties: |
     {{ .component.extendedSettings.logFile | toJson }}
   {{- end }}
+  box.json: |
+    {{ .component.name | toJson }}
 {{ end }}
