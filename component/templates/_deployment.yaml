@@ -24,7 +24,10 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config: {{ include "configMap" . | sha256sum }}
+        checksum/configmap: {{ include "configMap" . | sha256sum }}
+        {{- range $dict := .component.dictionaries }}
+        checksum/{{ $dict.name | lower }}: {{ $dict.checksum }}
+        {{- end }}
         {{- if .annotations }}
         th2.exactpro.com/antecedent : {{ .annotations }}
         {{- end }}
@@ -107,7 +110,6 @@ spec:
           - configMap:
               name: {{ .component.name }}-app-config
           {{- range $dictionary := .component.dictionaries }}
-
           - configMap:
               name: {{ $dictionary.name | lower }}-{{ $dictionary.type | lower }}-dictionary
           {{- end }}
