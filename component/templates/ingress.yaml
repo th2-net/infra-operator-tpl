@@ -17,7 +17,7 @@ spec:
   - http:
   {{- end }}
       paths:
-      {{- range $path := .Values.component.extendedSettings.service.ingress.urlPathes }}
+      {{- range $path := .Values.component.extendedSettings.service.ingress.urlPaths }}
       - backend:
           serviceName: {{ $.Values.component.name }}
           servicePort: 8080
