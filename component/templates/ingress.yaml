@@ -21,6 +21,6 @@ spec:
       - backend:
           serviceName: {{ $.Values.component.name }}
           servicePort: 8080
-        path: {{ $.Release.Namespace }}{{ $path }}
+        path: /{{ $.Release.Namespace }}{{ $path }}
       {{- end }}
 {{- end }}
