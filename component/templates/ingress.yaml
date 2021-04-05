@@ -11,16 +11,16 @@ metadata:
 spec:
   rules:
   {{- if .Values.ingressHost }}
-  - host: "{{ .Values.ingressHost -}}"
+  - host: {{ .Values.ingressHost | quote }}
     http:
   {{- else }}
   - http:
   {{- end }}
       paths:
       {{- range $path := .Values.component.extendedSettings.service.ingress.urlPathes }}
-      - path: {{ .Release.Namespace }}{{ $path }}
-        backend:
-          serviceName: {{ .Values.component.name }}
+      - backend:
+          serviceName: {{ $.Values.component.name }}
           servicePort: 8080
+        path: {{ $.Release.Namespace }}{{ $path }}
       {{- end }}
 {{- end }}
