@@ -10,8 +10,8 @@ metadata:
   name: {{ .Values.component.name }}-rules
 spec:
   rules:
-  {{- if .Values.ingressHost }}
-  - host: {{ .Values.ingressHost | quote }}
+  {{- if .Values.component.ingressHost }}
+  - host: {{ .Values.component.ingressHost | quote }}
     http:
   {{- else }}
   - http:
