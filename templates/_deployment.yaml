@@ -21,6 +21,9 @@ spec:
     metadata:
       annotations:
         checksum/config: {{ include "configMap" . | sha256sum }}
+        {{- range $dict := .component.dictionaries }}
+        checksum/{{ $dict.name }}: {{ include "dictionary-configMap" (list $ $dict) | sha256sum }}
+        {{- end }}
         {{- if .annotations }}
         th2.exactpro.com/antecedent : {{ .annotations }}
         {{- end }}
