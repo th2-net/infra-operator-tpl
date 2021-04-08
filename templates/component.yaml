@@ -3,6 +3,9 @@
 Generating configMap for k8
 */}}
 {{- include "configMap" .Values }}
+{{- range $dict := .Values.component.dictionaries }}
+{{- include "dictionary-configMap" (list $.Values $dict) }}
+{{- end }}
 ---
 {{/*
 Generating deployment for k8
