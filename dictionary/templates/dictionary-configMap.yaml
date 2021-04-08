@@ -11,5 +11,5 @@ metadata:
     app: {{ .Values.component.name }}
     type: dictionary
 data: 
-  {{ .Values.component.name }}-{{ .Values.component.type }}.encoded: |
+  {{ .Values.component.name }}.encoded: |
     {{ .Values.component.data }}
