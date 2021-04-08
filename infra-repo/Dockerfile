@@ -6,5 +6,5 @@ RUN mkdir /app/charts && \
 
 FROM alpine:3.13
 COPY --from=builder /app /app/
-# COPY infra-operator-tpl-0.3.0.tgz index.yaml /app/charts/
+COPY ../../th2-net.github.io/infra-operator-tpl-* ../../th2-net.github.io/index.yaml /app/charts/
 ENTRYPOINT ["/app/infra-repo", "-port=8080", "-path=/app/charts"]
