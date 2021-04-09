@@ -56,6 +56,6 @@ jobs:
         with:
           file: ./infra-operator-tpl/infra-repo/Dockerfile
           context: .
-          push: false
+          push: true
           tags: ghcr.io/th2-net/infra-repo:test
 #           tags: ghcr.io/th2-net/infra-repo:${{ steps.chart.outputs.version }}
