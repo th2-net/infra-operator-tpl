@@ -30,7 +30,7 @@ jobs:
       - name: Create package and index
         run: |
           helm package ./infra-operator-tpl/ --destination ./th2-net.github.io/
-          helm repo index --merge ./index.yaml ./th2-net.github.io/
+          helm repo index --merge ./th2-net.github.io/index.yaml ./th2-net.github.io/
 
 #       - name: Commit & Push changes
 #         uses: actions-js/push@master
