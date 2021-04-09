@@ -27,10 +27,6 @@ jobs:
         with:
           version: v3.4.1
 
-      - id: chart
-        uses: jacobtomlinson/gha-read-helm-chart@master
-        path: ./
-
       - name: Create package and index
         run: |
           helm package ./infra-operator-tpl/ --destination ./th2-net.github.io/
