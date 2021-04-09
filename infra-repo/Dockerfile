@@ -1,6 +1,6 @@
 FROM golang:alpine AS builder
 WORKDIR /app/
-COPY ./infra-repo/ .
+COPY ./infra-operator-tpl/infra-repo/ .
 RUN go build -v -o infra-repo .
 COPY ./th2-net.github.io/infra-operator-tpl-* ./index.yaml /app/charts/
 
