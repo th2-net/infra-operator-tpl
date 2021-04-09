@@ -1,8 +1,8 @@
 name: Publish chart
 on:
   push:
-    tags:
-      - "v*"
+#     tags:
+#       - "v*"
 
 jobs:
   release:
@@ -34,19 +34,16 @@ jobs:
       - name: Create package and index
         run: |
           helm package ./infra-operator-tpl/ --destination ./th2-net.github.io/
-          cd ./th2-net.github.io/
-          helm repo index --merge ./index.yaml .
+          helm repo index --merge ./index.yaml ./th2-net.github.io/
 
-      - name: Commit & Push changes
-        uses: actions-js/push@master
-        with:
-          directory: ./th2-net.github.io/
-          repository: th2-net/th2-net.github.io
-          author_name: ${{ github.actor }}
-          author_email: ${{ github.actor }}@users.noreply.github.com
-          github_token: ${{ secrets.PAT_CI_ACTION }}
-
-      - run: cd ../infra-operator-tpl/infra-repo
+#       - name: Commit & Push changes
+#         uses: actions-js/push@master
+#         with:
+#           directory: ./th2-net.github.io/
+#           repository: th2-net/th2-net.github.io
+#           author_name: ${{ github.actor }}
+#           author_email: ${{ github.actor }}@users.noreply.github.com
+#           github_token: ${{ secrets.PAT_CI_ACTION }}
 
       - name: set up docker buildx plugin
         uses: docker/setup-buildx-action@v1
@@ -61,5 +58,6 @@ jobs:
       - name: build image & push to registry
         uses: docker/build-push-action@v2
         with:
-          push: true
+          context: ./th2-net.github.io/
+          push: false
           tags: ghcr.io/th2-net/infra-repo:${{ steps.chart.outputs.version }}
