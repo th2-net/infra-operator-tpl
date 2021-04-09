@@ -32,6 +32,12 @@ jobs:
           helm package ./infra-operator-tpl/ --destination ./th2-net.github.io/
           helm repo index --merge ./th2-net.github.io/index.yaml ./th2-net.github.io/
 
+      - name: Read Helm Chart
+        id: chart
+        uses: jacobtomlinson/gha-read-helm-chart@master
+        with:
+          path: ./infra-operator-tpl/
+
 #       - name: Commit & Push changes
 #         uses: actions-js/push@master
 #         with:
@@ -57,5 +63,4 @@ jobs:
           file: ./infra-operator-tpl/infra-repo/Dockerfile
           context: .
           push: true
-          tags: ghcr.io/th2-net/infra-repo:test
-#           tags: ghcr.io/th2-net/infra-repo:${{ steps.chart.outputs.version }}
+          tags: ghcr.io/th2-net/infra-repo:${{ steps.chart.outputs.version }}
