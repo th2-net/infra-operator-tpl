@@ -54,7 +54,7 @@ jobs:
       - name: build image & push to registry
         uses: docker/build-push-action@v2
         with:
-          file: ./infra-repo/Dockerfile
+          file: ./infra-operator-tpl/infra-repo/Dockerfile
           context: ./th2-net.github.io/
           push: false
           tags: ghcr.io/th2-net/infra-repo:test
