@@ -56,4 +56,5 @@ jobs:
         with:
           context: ./th2-net.github.io/
           push: false
-          tags: ghcr.io/th2-net/infra-repo:${{ steps.chart.outputs.version }}
+          tags: ghcr.io/th2-net/infra-repo:test
+#           tags: ghcr.io/th2-net/infra-repo:${{ steps.chart.outputs.version }}
