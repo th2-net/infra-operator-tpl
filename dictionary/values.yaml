@@ -1,5 +1,4 @@
 ---
 component:
-  dictionaries:
-  - name: fix5555555
-    data: dictionary
+  name: fix5
+  data: dictionary
