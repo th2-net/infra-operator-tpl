@@ -1,3 +1,4 @@
+---
 apiVersion: v2
 name: infra-operator-tpl-dictionary
 description: Template chart for th2-infra-operator dictionary
