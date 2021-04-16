@@ -40,6 +40,8 @@ Generating configMap for k8
       - name: configs
         projected:
           sources:
+          - configMap:
+              name: {{ .component.name }}-app-config
           {{- if not .component.extendedSettings.logFile }}
           - configMap:
               name: java-logging-config
