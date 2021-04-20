@@ -28,5 +28,5 @@ data:
     {{ .component.extendedSettings.logFile | toJson }}
   {{- end }}
   box.json: |
-    {{ .component.name | toJson }}
+    {"boxName":{{ .component.name | quote }}}
 {{ end }}
