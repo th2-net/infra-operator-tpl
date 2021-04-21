@@ -26,6 +26,10 @@ data:
   {{- if .component.extendedSettings.logFile }}
   log4j.properties: |
     {{ .component.extendedSettings.logFile | toJson }}
+  log4py.conf: |
+    {{ .component.extendedSettings.logFile | toJson }}
+  log4cxx.properties: |
+    {{ .component.extendedSettings.logFile | toJson }}
   {{- end }}
   box.json: |
     {"boxName":{{ .component.name | quote }}}
