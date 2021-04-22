@@ -32,10 +32,4 @@ jobs:
           ct lint \
             --lint-conf=.github/workflows/cfg/lint-cfg.yml \
             --check-version-increment \
-            --validate-maintainers=false --debug --charts ./component/
-      - name: Run chart-testing dictionary (lint)
-        run: |
-          ct lint \
-            --lint-conf=.github/workflows/cfg/lint-cfg.yml \
-            --check-version-increment \
-            --validate-maintainers=false --debug --charts ./dictionary/
+            --validate-maintainers=false --debug --charts ./
