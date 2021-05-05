@@ -8,7 +8,7 @@ component:
     service:
       enabled: false
   prometheus:
-    enabled: false
+    enabled: "false"
   custom:
     # prod:
     #   value: dskgfsdgf

@@ -41,7 +41,7 @@ spec:
       protocol: TCP
       targetPort: metrics
   {{- else }}
-  {{- if .Values.component.prometheus.enabled }}
+  {{- if eq .Values.component.prometheus.enabled "true" }}
     - name: metrics
       port: 9752
       protocol: TCP
