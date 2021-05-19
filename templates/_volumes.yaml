@@ -46,6 +46,18 @@ Generating configMap for k8
           - configMap:
               name: logging-config
           {{- end }}
+          {{- if not .component.mq-router }}
+          - configMap:
+              name: mq-router
+          {{- end }}
+          {{- if not .component.grpc-router }}
+          - configMap:
+              name: grpc-router
+          {{- end }}
+          {{- if not .component.cradle-manager }}
+          - configMap:
+              name: cradle-manager
+          {{- end }}
           {{- if .component.extendedSettings.hostNetwork }}
           - configMap:
               name: rabbit-mq-external-app-config
