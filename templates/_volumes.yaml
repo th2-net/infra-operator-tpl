@@ -42,21 +42,21 @@ Generating configMap for k8
           sources:
           - configMap:
               name: {{ .component.name }}-app-config
-          {{- if not .component.extendedSettings.logFile }}
+          {{- if not .component.logging.config }}
           - configMap:
               name: logging-config
           {{- end }}
-          {{- if not .component.mq-router }}
+          {{- if not .component.mqRouter.config }}
           - configMap:
-              name: mq-router
+              name: mq_router
           {{- end }}
-          {{- if not .component.grpc-router }}
+          {{- if not .component.grpcRouter.config }}
           - configMap:
-              name: grpc-router
+              name: grpc_router
           {{- end }}
-          {{- if not .component.cradle-manager }}
+          {{- if not .component.cradleManager.config }}
           - configMap:
-              name: cradle-manager
+              name: cradle_manager
           {{- end }}
           {{- if .component.extendedSettings.hostNetwork }}
           - configMap:

@@ -24,11 +24,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/configmap: {{ include "configMap" . | sha256sum }}
-        checksum/logging: {{ .component.logging }}
-        {{- range $dict := .component.dictionaries }}
-        checksum/{{ $dict.name | lower }}: {{ $dict.checksum }}
-        {{- end }}
+        {{- include "checksum" . }}
         {{- if .annotations }}
         th2.exactpro.com/antecedent : {{ .annotations }}
         {{- end }}
