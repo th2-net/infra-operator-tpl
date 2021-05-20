@@ -48,15 +48,15 @@ Generating configMap for k8
           {{- end }}
           {{- if not .component.mqRouter.config }}
           - configMap:
-              name: mq_router
+              name: mq-router
           {{- end }}
           {{- if not .component.grpcRouter.config }}
           - configMap:
-              name: grpc_router
+              name: grpc-router
           {{- end }}
           {{- if not .component.cradleManager.config }}
           - configMap:
-              name: cradle_manager
+              name: cradle-manager
           {{- end }}
           {{- if .component.extendedSettings.hostNetwork }}
           - configMap:
