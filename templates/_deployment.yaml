@@ -13,17 +13,18 @@ metadata:
     th2.exactpro.com/antecedent: {{ .annotations }}
     {{- end }}
 spec:
+  {{- if .component.extendedSettings.replicas }}      
+  replicas: {{ .component.extendedSettings.replicas }}
+  {{- else }}
   replicas: 1
+  {{- end }}
   selector:
     matchLabels:
       app: {{ .component.name }}
   template:
     metadata:
       annotations:
-        checksum/config: {{ include "configMap" . | sha256sum }}
-        {{- range $dict := .component.dictionaries }}
-        checksum/{{ $dict.name }}: {{ include "dictionary-configMap" (list $ $dict) | sha256sum }}
-        {{- end }}
+        {{- include "checksum" . }}
         {{- if .annotations }}
         th2.exactpro.com/antecedent : {{ .annotations }}
         {{- end }}
@@ -59,54 +60,21 @@ spec:
             secretKeyRef:
               name: {{ .component.secrets.cassandra }}
               key: cassandra-password
-        volumeMounts:
-{{- /* Old location for log4j.properties file. Will be removed further versions */}}
-        - name: logging-volume
-          mountPath: /home/etc/log4j.properties
-          subPath: log4j.properties
-{{- /* end old location */}}
-        - name: configs
-          mountPath: /var/th2/config/
-        {{- range $volume := .component.extendedSettings.mounting }}
-        - name: {{ $volume.pvcName | lower }}
-          mountPath: {{ $volume.path | quote }}
-        {{- end }}
-      volumes:
-      {{- range $volume := .component.extendedSettings.mounting }}
-      - name: {{ $volume.pvcName | lower }}
-        persistentVolumeClaim:
-          claimName: {{ $volume.pvcName }}
-      {{- end }}
-{{- /* Old configmap name for log4j.properties file. Will be removed further versions */}}
-      - name: logging-volume
-        configMap:
-          name: java-logging-config
-{{- /* end old configmap name */}}
-      - name: configs
-        projected:
-          sources:
-          {{- if .component.extendedSettings.hostNetwork }}
-          - configMap:
-              name: rabbit-mq-external-app-config
-          - configMap:
-              name: cradle-external
-          {{ else }}
-          - configMap:
-              name: rabbit-mq-app-config
-          - configMap:
-              name: cradle
-          {{- end }}
-          - configMap:
-              name: {{ .component.name }}-app-config
-          {{- range $dictionary := .component.dictionaries }}
-          - configMap:
-              name: {{ $.component.name }}-{{ $dictionary.name | lower }}-dictionary
-          {{- end }}
+        {{- include "volumes" . }}        
       imagePullSecrets:
       - name: th2-solution
       - name: th2-core
       - name: th2-proprietary
       {{- if .component.extendedSettings.hostNetwork }}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: "kubernetes.io/hostname"
+                    operator: In
+                    values:
+                      - {{ .component.extendedSettings.nodeName }}
       hostNetwork: true
       dnsPolicy: ClusterFirst
       {{- end }}

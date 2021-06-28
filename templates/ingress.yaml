@@ -1,0 +1,26 @@
+{{- if .Values.component.extendedSettings.service.ingress }}
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/use-regex: "true"
+  name: {{ .Values.component.name }}-rules
+spec:
+  rules:
+  {{- if .Values.component.ingressHost }}
+  - host: {{ .Values.component.ingressHost | quote }}
+    http:
+  {{- else }}
+  - http:
+  {{- end }}
+      paths:
+      {{- range $path := .Values.component.extendedSettings.service.ingress.urlPaths }}
+      - backend:
+          serviceName: {{ $.Values.component.name }}
+          servicePort: 8080
+        path: /{{ $.Release.Namespace }}{{ $path }}
+      {{- end }}
+{{- end }}
