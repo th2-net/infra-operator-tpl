@@ -1,0 +1,28 @@
+{{/*
+Generating envVariables for k8
+*/}}
+{{- define "envVariable" }}
+        {{- if .component.extendedSettings.envVariables }}
+        {{- range $envName, $envValue := .component.extendedSettings.envVariables }}
+        - name: {{ $envName }}
+          value: {{ $envValue | quote }}
+        {{- end }}
+        {{- end }}
+        {{- range $envName, $envValue := .component.secretCustomConfig }}
+        - name: {{ $envName | snakecase | upper }}
+          valueFrom:
+            secretKeyRef:
+              name: secret-custom-config
+              key: {{ $envValue }}
+        {{- end }}
+        - name: RABBITMQ_PASS
+          valueFrom:
+            secretKeyRef:
+              name: {{ .component.secrets.rabbitMQ }}
+              key: rabbitmq-password
+        - name: CASSANDRA_PASS
+          valueFrom:
+            secretKeyRef:
+              name: {{ .component.secrets.cassandra }}
+              key: cassandra-password
+{{- end }}

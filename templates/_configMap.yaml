@@ -45,4 +45,14 @@ data:
   {{- end }}
   box.json: |
     {"boxName":{{ .component.name | quote }}}
+  {{- if .component.secretCustomConfig }}
+  {{- $json := dict -}}
+  {{- range $envName, $envValue := .component.secretCustomConfig }}
+  {{- $param := $envName | snakecase | upper }}
+  {{- $_ := set $json $envName $param }}
+  {{- end }}
+  secret_custom_config.json: |
+    {{ $json | toJson }}
+  {{- end }}
+
 {{ end }}
