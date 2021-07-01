@@ -46,7 +46,7 @@ data:
   box.json: |
     {"boxName":{{ .component.name | quote }}}
   {{- if .component.secretCustomConfig }}
-  {{- $json := dict -}}
+  {{- $json := dict }}
   {{- range $envName, $envValue := .component.secretCustomConfig }}
   {{- $param := $envName | snakecase | upper }}
   {{- $_ := set $json $envName $param }}

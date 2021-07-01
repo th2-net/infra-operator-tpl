@@ -3,11 +3,24 @@ Generating envVariables for k8
 */}}
 {{- define "envVariable" }}
         {{- if .component.extendedSettings.envVariables }}
+        {{- $java_opts := "-XX:+ExitOnOutOfMemoryError -XX:+UseContainerSupport -XX:MaxRAMPercentage=85" }}
+        {{- $var := dict "0" $java_opts }}
         {{- range $envName, $envValue := .component.extendedSettings.envVariables }}
+        {{- if eq $envName "JAVA_OPTS" }}
+        {{- if contains "${JAVA_OPTS}" $envValue }}
+        {{- $temp := $envValue | trimAll "${JAVA_OPTS}" }}
+        {{- $_ := set $var "1" $temp }}
+        {{- else }}
+        {{- $_ := set $var "0" $envValue }}
+        {{- end }}
+        {{- else }} {{/* else if Java_OPTS */}}
         - name: {{ $envName }}
           value: {{ $envValue | quote }}
-        {{- end }}
-        {{- end }}
+        {{- end }} {{/* end if Java_OPTS */}}
+        {{- end }} {{/* end range envVariables */}}
+        - name: JAVA_OPTS
+          value: {{ get $var "0" }}{{ get $var "1"}}
+        {{- end }} {{/* end if envVariables */}}
         {{- range $envName, $envValue := .component.secretCustomConfig }}
         - name: {{ $envName | snakecase | upper }}
           valueFrom:
