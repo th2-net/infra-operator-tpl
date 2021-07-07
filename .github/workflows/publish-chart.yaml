@@ -30,8 +30,13 @@ jobs:
       - name: Create package and index
         run: |
           helm package ./infra-operator-tpl/ --destination ./th2-net.github.io/
-          cd ./th2-net.github.io/
-          helm repo index --merge ./index.yaml .
+          helm repo index --merge ./th2-net.github.io/index.yaml ./th2-net.github.io/
+
+      - name: Read Helm Chart
+        id: chart
+        uses: jacobtomlinson/gha-read-helm-chart@master
+        with:
+          path: ./infra-operator-tpl/
 
       - name: Commit & Push changes
         uses: actions-js/push@master
@@ -41,3 +46,21 @@ jobs:
           author_name: ${{ github.actor }}
           author_email: ${{ github.actor }}@users.noreply.github.com
           github_token: ${{ secrets.PAT_CI_ACTION }}
+
+      - name: set up docker buildx plugin
+        uses: docker/setup-buildx-action@v1
+
+      - name: log in to github container registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.CR_PAT }}
+
+      - name: build image & push to registry
+        uses: docker/build-push-action@v2
+        with:
+          file: ./infra-operator-tpl/infra-repo/Dockerfile
+          context: .
+          push: true
+          tags: ghcr.io/th2-net/infra-repo:${{ steps.chart.outputs.version }}
