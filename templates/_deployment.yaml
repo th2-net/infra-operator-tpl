@@ -44,23 +44,8 @@ spec:
         {{- include "prometheus-deploy" . }}
         {{- include "resources" . }}
         env:
-        {{- if .component.extendedSettings.envVariables }}
-        {{- range $envName, $envValue := .component.extendedSettings.envVariables }}
-        - name: {{ $envName }}
-          value: {{ $envValue | quote }}
-        {{- end }}
-        {{- end }}
-        - name: RABBITMQ_PASS
-          valueFrom:
-            secretKeyRef:
-              name: {{ .component.secrets.rabbitMQ }}
-              key: rabbitmq-password
-        - name: CASSANDRA_PASS
-          valueFrom:
-            secretKeyRef:
-              name: {{ .component.secrets.cassandra }}
-              key: cassandra-password
-        {{- include "volumes" . }}        
+        {{- include "envVariable" . }}
+        {{- include "volumes" . }}
       imagePullSecrets:
       - name: th2-solution
       - name: th2-core
