@@ -37,11 +37,11 @@ data:
   {{- end }}
   {{- if .component.logging.config }}
   log4j.properties: |
-    {{ .component.logging.config | toJson }}
+    {{ .component.logging.config | nindent 4 }}
   log4py.conf: |
-    {{ .component.logging.config | toJson }}
+    {{ .component.logging.config | nindent 4 }}
   log4cxx.properties: |
-    {{ .component.logging.config | toJson }}
+    {{ .component.logging.config | nindent 4 }}
   {{- end }}
   box.json: |
     {"boxName":{{ .component.name | quote }}}
