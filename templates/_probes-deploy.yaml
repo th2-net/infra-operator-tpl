@@ -2,21 +2,19 @@
 Generating liveness & readness probes
 */}}
 {{- define "probes-deploy" }}
-        {{- if .component.prometheus.enabled }}
+        {{- if .component.extendedSettings.k8sProbes }}
         livenessProbe:
           exec:
             command:
-            - /bin/sh
-            - -c
-            - 'wget -q -O - http://localhost:9752/ | grep "th2_liveness 1.0"'
+            - cat
+            - /tmp/healthy
           initialDelaySeconds: 30
           periodSeconds: 10
         readinessProbe:
           exec:
             command:
-            - /bin/sh
-            - -c
-            - 'wget -q -O - http://localhost:9752/ | grep "th2_readiness 1.0"'
+            - cat
+            - /tmp/ready
           initialDelaySeconds: 30
           periodSeconds: 10
         {{- end }}
