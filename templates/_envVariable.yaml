@@ -24,8 +24,8 @@ Generating envVariables for k8
         - name: JAVA_TOOL_OPTIONS
           value: {{ get $var "0" }}
         {{- end }} {{/* end if envVariables */}}
-        {{- range $envName, $envValue := .component.secretCustomConfig }}
-        - name: {{ $envName | snakecase | upper }}
+        {{- range $envName, $envValue := .component.secretValuesConfig }}
+        - name: {{ $envName }}
           valueFrom:
             secretKeyRef:
               name: secret-custom-config
