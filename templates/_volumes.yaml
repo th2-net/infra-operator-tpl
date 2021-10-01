@@ -3,6 +3,11 @@ Generating configMap for k8
 */}}
 {{- define "volumes" }}
         volumeMounts:
+        {{- if .component.secretPathsConfig }}
+        - name: secrets 
+          mountPath: /var/th2/
+          readOnly: true
+        {{- end }}
         {{- if .component.extendedSettings.sharedMemory }}
         {{- if .component.extendedSettings.sharedMemory.enabled }}
         - name: shm
@@ -20,6 +25,18 @@ Generating configMap for k8
           mountPath: /var/th2/config/dictionary/{{ $dict.type | lower }}/
         {{- end }}
       volumes:
+      {{- if .component.secretPathsConfig }}
+      - name: secrets
+        projected:
+          sources:
+        {{- range $envName, $secKey := .component.secretPathsConfig }}
+          - secret:
+              name: secret-custom-config
+              items:
+              - key: {{ $secKey }}
+                path: /var/th2/config/secrets/
+        {{- end }}
+      {{- end }}
       {{- if .component.extendedSettings.sharedMemory }}
       {{- if .component.extendedSettings.sharedMemory.enabled }}
       - name: shm
