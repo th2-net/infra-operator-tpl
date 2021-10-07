@@ -39,7 +39,7 @@ data:
   log4j.properties: |
     {{- .component.logging.config | nindent 4 }}
   log4py.conf: |
-    {{- .component.logging.config | nindent 4}}
+    {{- .component.logging.config | nindent 4 }}
   log4cxx.properties: |
     {{- .component.logging.config | nindent 4 }}
   {{- end }}
