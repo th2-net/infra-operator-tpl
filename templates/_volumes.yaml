@@ -27,8 +27,15 @@ Generating configMap for k8
       volumes:
       {{- if .component.secretPathsConfig }}
       - name: secrets
-        secret:
-          secretName: secret-custom-config
+        projected:
+          sources:
+          - secret:
+              name: secret-custom-config
+              items:
+          {{- range $envName, $secKey := .component.secretPathsConfig }}
+                - key: {{ $secKey }}
+                  path: {{ $secKey }}
+          {{- end }}
       {{- end }}
       {{- if .component.extendedSettings.sharedMemory }}
       {{- if .component.extendedSettings.sharedMemory.enabled }}
