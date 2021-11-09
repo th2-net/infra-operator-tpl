@@ -51,16 +51,10 @@ spec:
       - name: th2-solution
       - name: th2-core
       - name: th2-proprietary
+      {{- if .component.extendedSettings.nodeSelector }}
+      {{ .component.extendedSettings.nodeSelector | toJson }}
+      {{- end }}
       {{- if .component.extendedSettings.hostNetwork }}
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: "kubernetes.io/hostname"
-                    operator: In
-                    values:
-                      - {{ .component.extendedSettings.nodeName }}
       hostNetwork: true
       dnsPolicy: ClusterFirst
       {{- end }}
