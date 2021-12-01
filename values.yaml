@@ -1,5 +1,7 @@
 ---
 component:
+  bookConfig:
+    bookName: defaultBook
   secrets:
     rabbitMQ: rabbitMQ
     cassandra: cassandra
