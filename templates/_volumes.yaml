@@ -20,9 +20,18 @@ Generating configMap for k8
         - name: {{ $volume.pvcName | lower }}
           mountPath: {{ $volume.path | quote }}
         {{- end }}
-        {{- range $dict := .component.dictionaries }}
-        - name: {{ $dict.name | lower }}
-          mountPath: /var/th2/config/dictionary/{{ $dict.type | lower }}/
+        {{- range $item := .component.dictionaries }}
+        - name: {{ $item.type | lower }}
+          mountPath: /var/th2/config/dictionaries/{{ $item.type | lower }}/
+{{/* For old one dictionary compability */}}
+        {{- $dictCount := len $item.names }}
+        {{- if eq $dictCount 1 }}
+        {{- range $dict := $item.names }}
+        - name: {{ $dict | lower }}
+          mountPath: /var/th2/config/dictionary/{{ $item.type | lower }}/
+        {{- end }}
+        {{- end }}
+{{/* end old dictionary compability */}}
         {{- end }}
       volumes:
       {{- if .component.secretPathsConfig }}
@@ -50,9 +59,24 @@ Generating configMap for k8
           claimName: {{ $volume.pvcName }}
       {{- end }}
       {{- range $dict := .component.dictionaries }}
-      - name: {{ $dict.name | lower }}
+      {{- range $item := .component.dictionaries }}
+      - name: {{ $item.type | lower }}
+        projected:
+          sources:
+          {{- range $dict := $item.names }}
+          - configMap:
+            name: {{ $dict | lower }}-dictionary
+          {{- end }}
+{{/* For old one dictionary compability */}}
+      {{- $dictCount := len $item.names }}
+      {{- if eq $dictCount 1 }}
+      {{- range $dict := $item.names }}
+      - name: {{ $dict | lower }}
         configMap:
-          name: {{ $dict.name | lower }}-dictionary
+          name: {{ $dict | lower }}-dictionary
+      {{- end }}
+      {{- end }}
+{{/* end old dictionary compability */}}
       {{- end }}
       - name: configs
         projected:
