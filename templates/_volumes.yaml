@@ -64,7 +64,7 @@ Generating configMap for k8
           sources:
           {{- range $dict := $item.names }}
           - configMap:
-            name: {{ $dict | lower }}-dictionary
+              name: {{ $dict | lower }}-dictionary
           {{- end }}
 {{/* For old one dictionary compability */}}
       {{- $dictCount := len $item.names }}
