@@ -58,7 +58,6 @@ Generating configMap for k8
         persistentVolumeClaim:
           claimName: {{ $volume.pvcName }}
       {{- end }}
-      {{- range $dict := .component.dictionaries }}
       {{- range $item := .component.dictionaries }}
       - name: {{ $item.type | lower }}
         projected:
