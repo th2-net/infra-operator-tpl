@@ -111,3 +111,4 @@ Generating configMap for k8
               name: cradle
           {{- end }}
 {{- end }}
+
