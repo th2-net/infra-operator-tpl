@@ -42,6 +42,8 @@ data:
     {{- .component.logging.config | nindent 4 }}
   log4cxx.properties: |
     {{- .component.logging.config | nindent 4 }}
+  log4j2.properties: |
+    {{- .component.logging.config | nindent 4 }}
   {{- end }}
   box.json: |
     {"boxName":{{ .component.name | quote }}}
