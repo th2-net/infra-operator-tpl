@@ -20,9 +20,14 @@ Generating configMap for k8
         - name: {{ $volume.pvcName | lower }}
           mountPath: {{ $volume.path | quote }}
         {{- end }}
-        {{- range $dict := .component.dictionaries }}
+        {{- range $dict := .component.oldDictionaries }}
         - name: {{ $dict.name | lower }}
           mountPath: /var/th2/config/dictionary/{{ $dict.type | lower }}/
+        {{- end }}
+        {{- range $dict := .component.dictionaries }}
+        - name: {{ $dict.alias | lower }}
+          mountPath: /var/th2/config/dictionaries/{{ $dict.alias | lower }}
+          subPath: {{ $dict.alias | lower }}
         {{- end }}
       volumes:
       {{- if .component.secretPathsConfig }}
@@ -49,8 +54,13 @@ Generating configMap for k8
         persistentVolumeClaim:
           claimName: {{ $volume.pvcName }}
       {{- end }}
-      {{- range $dict := .component.dictionaries }}
+      {{- range $dict := .component.oldDictionaries }}
       - name: {{ $dict.name | lower }}
+        configMap:
+          name: {{ $dict.name | lower }}-dictionary
+      {{- end }}
+      {{- range $dict := .component.dictionaries }}
+      - name: {{ $dict.alias | lower }}
         configMap:
           name: {{ $dict.name | lower }}-dictionary
       {{- end }}
