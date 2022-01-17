@@ -24,8 +24,10 @@ Generating configMap for k8
         - name: {{ $dict.name | lower }}
           mountPath: /var/th2/config/dictionary/{{ $dict.type | lower }}/
         {{- end }}
+        {{- if .component.dictionaries }}
         - name: dictionaries
           mountPath: /var/th2/config/dictionaries/
+        {{- end }}
       volumes:
       {{- if .component.secretPathsConfig }}
       - name: secrets
@@ -56,6 +58,7 @@ Generating configMap for k8
         configMap:
           name: {{ $dict.name | lower }}-dictionary
       {{- end }}
+      {{- if .component.dictionaries }}
       - name: dictionaries
         projected:
           sources: 
@@ -66,6 +69,7 @@ Generating configMap for k8
                 - key: {{ $dict.name | lower }}.encoded
                   path: {{ $dict.alias | lower }}
           {{- end }}
+      {{- end }}
       - name: configs
         projected:
           sources:
