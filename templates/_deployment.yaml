@@ -8,10 +8,9 @@ metadata:
   labels:
     app: {{ .component.name }}
   name: {{ .component.name }}
-  annotations:
-    {{- if .annotations }}
-    th2.exactpro.com/antecedent: {{ .annotations }}
-    {{- end }}
+  {{- if .annotations }}
+{{- include "annotations" . }}
+  {{- end }}
 spec:
   {{- if .component.extendedSettings.replicas }}      
   replicas: {{ .component.extendedSettings.replicas }}
@@ -26,7 +25,7 @@ spec:
       annotations:
         {{- include "checksum" . }}
         {{- if .annotations }}
-        th2.exactpro.com/antecedent : {{ .annotations }}
+{{ toYaml .annotations | indent 8 }}
         {{- end }}
       labels:
         app: {{ .component.name }}

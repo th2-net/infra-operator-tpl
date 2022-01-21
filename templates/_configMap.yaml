@@ -6,8 +6,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   {{- if .annotations }}
-  annotations:
-    th2.exactpro.com/antecedent: {{ .annotations }}
+{{- include "annotations" . }}
   {{- end }}
   name: {{ .component.name }}-app-config
   labels:

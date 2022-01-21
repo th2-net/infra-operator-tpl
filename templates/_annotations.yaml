@@ -1,0 +1,8 @@
+{{/*
+Generating annotations for k8
+Pay attention to pod annotation in _deployment.yaml at changing this file
+*/}}
+{{- define "annotations" }}
+  annotations:
+{{ toYaml .annotations | indent 4 }}
+{{- end }}
