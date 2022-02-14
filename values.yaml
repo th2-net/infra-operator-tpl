@@ -1,4 +1,5 @@
 ---
+commonAnnotations: {}
 component:
   secrets:
     rabbitMQ: rabbitMQ

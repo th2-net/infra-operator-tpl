@@ -5,10 +5,8 @@ Generating configMap for k8
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  {{- if .annotations }}
   annotations:
-    th2.exactpro.com/antecedent: {{ .annotations }}
-  {{- end }}
+  {{- include "common-annotaitions" . | nindent 4  }}
   name: {{ .component.name }}-app-config
   labels:
     app: {{ .component.name }}

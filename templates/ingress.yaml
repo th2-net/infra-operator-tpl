@@ -7,6 +7,7 @@ metadata:
     nginx.ingress.kubernetes.io/enable-cors: "true"
     nginx.ingress.kubernetes.io/rewrite-target: /$1
     nginx.ingress.kubernetes.io/use-regex: "true"
+    {{- include "common-annotaitions" . | nindent 4  }}
   name: {{ .Values.component.name }}-rules
 spec:
   rules:
