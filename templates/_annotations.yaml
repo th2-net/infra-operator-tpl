@@ -2,7 +2,7 @@
 Adding annotations
 */}}
 {{- define "common-annotaitions" -}}
-{{- if .component.commonAnnotations -}}
-{{ .component.commonAnnotations | toYaml }}
+{{- if .commonAnnotations -}}
+{{ .commonAnnotations | toYaml }}
 {{- end -}}
 {{- end -}}
