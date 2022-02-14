@@ -1,8 +1,8 @@
 ---
-commonAnnotations: {}
 component:
+  commonAnnotations: {}
   secrets:
-    rabbitMQ: rabbitMQ
+    rabbitMQ: rabbitM0Q
     cassandra: cassandra
   image:
   name: comp1
