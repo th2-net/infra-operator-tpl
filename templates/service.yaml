@@ -4,7 +4,7 @@ kind: Service
 metadata:
   name: {{ .Values.component.name }}
   annotations:
-  {{- include "common-annotaitions" .Values | nindent 4  }}
+  {{- include "common-annotations" .Values | nindent 4  }}
   {{- if .Values.component.prometheus }}{{- if .Values.component.prometheus.enabled }}
   labels:
     monitoring-pod: "true"
@@ -33,7 +33,7 @@ kind: Service
 metadata:
   name: {{ .Values.component.name }}
   annotations:
-  {{- include "common-annotaitions" .Values | nindent 4  }}
+  {{- include "common-annotations" .Values | nindent 4  }}
   labels:
     monitoring-pod: "true"
 spec:
