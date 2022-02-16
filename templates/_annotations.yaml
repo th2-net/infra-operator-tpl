@@ -2,10 +2,10 @@
 Adding annotations
 */}}
 {{- define "ingress-annotations" -}}
-{{- if .ingress.annotations.default -}}
+{{- if .component.ingress.annotations.default -}}
 {{ .component.ingress.annotations.default | toYaml }}
 {{- end -}}
-{{- if .ingress.annotations.extra }}
+{{- if .component.ingress.annotations.extra }}
 {{ .component.ingress.annotations.extra | toYaml }}
 {{- end -}}
 {{- end -}}
