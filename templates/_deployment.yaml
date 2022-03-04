@@ -36,6 +36,7 @@ spec:
     spec:
       containers:
       - image: {{ .component.image }}
+        {{- include "probes-deploy" . }}
         name: {{ .component.name }}
         {{- include "prometheus-deploy" . }}
         {{- include "resources" . }}
