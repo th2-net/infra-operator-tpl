@@ -37,13 +37,20 @@ data:
   log4j.properties: |
     {{- .component.logging.config | nindent 4 }}
   log4py.conf: |
-    {{- .component.logging.config | nindent 4 }}
+    {{- .component.logging.config | nindent 4}}
   log4cxx.properties: |
-    {{- .component.logging.config | nindent 4 }}
-  log4j2.properties: |
     {{- .component.logging.config | nindent 4 }}
   {{- end }}
   box.json: |
     {"boxName":{{ .component.name | quote }}}
+  {{- if .component.secretCustomConfig }}
+  {{- $json := dict }}
+  {{- range $envName, $envValue := .component.secretCustomConfig }}
+  {{- $param := $envName | snakecase | upper }}
+  {{- $_ := set $json $envName $param }}
+  {{- end }}
+  secret_custom_config.json: |
+    {{ $json | toJson }}
+  {{- end }}
 
 {{ end }}
