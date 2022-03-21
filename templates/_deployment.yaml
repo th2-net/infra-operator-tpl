@@ -9,9 +9,7 @@ metadata:
     app: {{ .component.name }}
   name: {{ .component.name }}
   annotations:
-    {{- if .annotations }}
-    th2.exactpro.com/antecedent: {{ .annotations }}
-    {{- end }}
+  {{- include "common-annotations" . | nindent 4  }}
 spec:
   {{- if .component.extendedSettings.replicas }}      
   replicas: {{ .component.extendedSettings.replicas }}
@@ -25,9 +23,7 @@ spec:
     metadata:
       annotations:
         {{- include "checksum" . }}
-        {{- if .annotations }}
-        th2.exactpro.com/antecedent : {{ .annotations }}
-        {{- end }}
+        {{- include "common-annotations" . | nindent 8  }}
       labels:
         app: {{ .component.name }}
         {{- if not .component.prometheus }}
