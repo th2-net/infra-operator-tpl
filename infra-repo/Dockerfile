@@ -4,7 +4,7 @@ COPY ./infra-operator-tpl/infra-repo/ .
 RUN go build -v -o infra-repo .
 COPY ./th2-net.github.io/infra-operator-tpl-* ./th2-net.github.io/index.yaml /app/charts/
 COPY ./th2-net.github.io/th2-infra/dashboards/grafana-dashboards /app/charts/
-ADD https://grafana.com/api/plugins/flant-statusmap-panel /app/chart/
+ADD https://grafana.com/api/plugins/flant-statusmap-panel /app/chart/grafana-plugins
 
 FROM alpine:3.13
 COPY --from=builder /app /app/
