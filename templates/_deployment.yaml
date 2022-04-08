@@ -47,6 +47,11 @@ spec:
       {{- range $registry := .component.secretNames }}
       - {{ $registry }}
       {{- end }}
+{{/* For compability with old version */}}
+      - name: th2-solution
+      - name: th2-core
+      - name: th2-proprietary
+{{/* end compability */}}
       {{- if .component.extendedSettings.nodeSelector }}
       nodeSelector:
         {{ .component.extendedSettings.nodeSelector | toYaml }}
