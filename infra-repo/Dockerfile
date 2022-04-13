@@ -3,11 +3,14 @@ WORKDIR /app/
 COPY ./infra-operator-tpl/infra-repo/ .
 RUN go build -v -o infra-repo .
 COPY ./th2-net.github.io/infra-operator-tpl-* ./th2-net.github.io/index.yaml /app/charts/
-COPY ./th2-net.github.io/th2-infra/dashboards/grafana-dashboards /app/charts/
-RUN mkdir -p /app/chart/grafana-plugins/
-ADD ./infra-operator-tpl/infra-repo/run.sh ./run.sh
-RUN ./run.sh
+RUN mkdir ./chart/grafana-plugins/
 
 FROM alpine:3.13
 COPY --from=builder /app /app/
+COPY ./grafana-dashboards /app/charts/
+WORKDIR /app/chart/grafana-plugins/
+COPY grafana-plugins.txt .
+COPY run.sh .
+RUN chmod +x run.sh
+RUN ./run.sh
 ENTRYPOINT ["/app/infra-repo", "-port=8080", "-path=/app/charts"]

@@ -1,7 +1,5 @@
-#!/bin/bash
-
-mkdir -p /app/charts/grafana-plugins/
+#!/bin/sh
 
 while read line; do
-  curl (cd app/charts/grafana-plugins/ &&$line -O)
+wget "$line"
 done < grafana-plugins.txt
