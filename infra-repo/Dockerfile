@@ -7,8 +7,8 @@ RUN mkdir ./chart/grafana-plugins/
 
 FROM alpine:3.13
 COPY --from=builder /app /app/
-COPY ./grafana-dashboards /app/charts/
-WORKDIR /app/chart/grafana-plugins/
+COPY ./dashboards /app/charts/
+WORKDIR /app/chart/plugins/
 COPY grafana-plugins.txt .
 COPY run.sh .
 RUN chmod +x run.sh
