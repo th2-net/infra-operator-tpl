@@ -1,5 +1,11 @@
 ---
+commonAnnotations: {}
 component:
+  ingress:
+    host:
+    annotations:
+      default: {}
+      extra: {}
   secrets:
     rabbitMQ: rabbitMQ
     cassandra: cassandra
